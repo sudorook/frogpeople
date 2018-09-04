@@ -23,7 +23,7 @@ print(soln1) # Georges Urbain
 multiple_nominees <- nobeldata %>%
   select(Field, ID) %>%
   group_by(ID) %>%
-  mutate(N_Fields <- n_distinct(Field)) %>%
+  mutate(N_Fields = n_distinct(Field)) %>%
   ungroup() %>%
   distinct() %>%
   filter(N_Fields > 1)
