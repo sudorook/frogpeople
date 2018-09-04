@@ -1,6 +1,7 @@
 #! /usr/bin/env Rscript
 
 library(dplyr)
+library(tidyr)
 library(ggplot2)
 
 # Avian influenza cases in humans usually arise from two viral subtypes, H5N1
