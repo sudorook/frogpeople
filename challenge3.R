@@ -42,11 +42,11 @@ library(ggplot2)
 # subtype was circulating. The authors made several other assumptions, but this
 # is good enough for now.
 
-risk = .28
+risk <- .28
 
-birdfludata = tbl_df(read.csv("data/subtype_counts.csv", header=T))
+birdfludata <- tbl_df(read.csv("data/subtype_counts.csv", header=T))
 
-meltyfludata = birdfludata %>% gather("Strain", "Count", 2:4)
+meltyfludata <- birdfludata %>% gather("Strain", "Count", 2:4)
 meltyfludata <- meltyfludata %>% group_by(Year) %>%
   mutate(Frequency=Count/sum(Count))
 
@@ -79,12 +79,12 @@ recursiveflu <- function(year, flu_f, people_f, risk=0.28) {
   }
 }
 
-count = 1
+count <- 1
 for (year in seq(1960,2017,1)) {
-  people[count,] = recursiveflu(year, meltyfludata, filter(people, Birthyear == year), .28)
+  people[count,] <- recursiveflu(year, meltyfludata, filter(people, Birthyear == year), .28)
   print(recursiveflu(year, meltyfludata, filter(people, Birthyear == year), .28))
-  count = count + 1
+  count <- count + 1
 }
 
-soln = people %>% filter(Birthyear >= 1960, Birthyear <= 1996)
+soln <- people %>% filter(Birthyear >= 1960, Birthyear <= 1996)
 print(soln)
