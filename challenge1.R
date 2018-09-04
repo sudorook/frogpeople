@@ -46,17 +46,15 @@ print(soln3) # 57 in 1957, and 57 in 1963
 # 4. What is the average number of nominees for each field? Calculate the
 #    average number of nominee for each field across years.
 
-yearcount <- max(nobeldata$Year) - min(nobeldata$Year) + 1
-
 soln4 <- nobeldata %>%
   group_by(Field) %>%
-  summarise(Average=n()/yearcount)
+  summarise(Average=n()/length(unique(Year)))
 
 print(soln4)
 
-# Che      24.0
-# Lit      31.4
-# Med      40.6
-# Pea      28.4
-# Phy      26.0
+# Che    24.3
+# Lit    31.4
+# Med    49.8
+# Pea    30.8
+# Phy    26.0
 
