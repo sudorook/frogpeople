@@ -24,12 +24,12 @@ multiple_nominees <- nobeldata %>%
   select(Field, ID) %>%
   group_by(ID) %>%
   mutate(N_Fields = n_distinct(Field)) %>%
+  filter(N_Fields > 1) %>%
   ungroup() %>%
-  distinct() %>%
-  filter(N_Fields > 1)
+  distinct(ID)
 
 soln2 <- length(multiple_nominees$ID)
-print(soln2) # 357
+print(soln2) # 177
 
 
 # 3. Take Physics (Phy). Which year had the largest number of nominees?
