@@ -4,7 +4,7 @@ library(dplyr)
 library(tidyr)
 
 nobeldata = tbl_df(read.csv("data/nobel_nominations.csv", header=F,
-                            colNames=c("Field", "Year", "ID")))
+                            col.names=c("Field", "Year", "ID")))
 
 # 1. Take Chemistry (Che). Who received most nominations?
 
