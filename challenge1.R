@@ -3,12 +3,12 @@
 library(dplyr)
 library(tidyr)
 
-nobeldata = tbl_df(read.csv("data/nobel_nominations.csv", header=F,
+nobeldata <- tbl_df(read.csv("data/nobel_nominations.csv", header=F,
                             col.names=c("Field", "Year", "ID")))
 
 # 1. Take Chemistry (Che). Who received most nominations?
 
-soln1 = nobeldata %>% 
+soln1 <- nobeldata %>%
   filter(Field == "Che") %>%
   group_by(ID) %>%
   summarise(Count=n()) %>%
@@ -20,21 +20,21 @@ print(soln1) # Georges Urbain
 
 # 2. Find all the researchers who received nominations in more than one field.
 
-multiple_nominees = nobeldata %>%
+multiple_nominees <- nobeldata %>%
   select(Field, ID) %>%
   group_by(ID) %>%
-  mutate(N_Fields = n_distinct(Field)) %>%
+  mutate(N_Fields <- n_distinct(Field)) %>%
   ungroup() %>%
   distinct() %>%
   filter(N_Fields > 1)
 
-soln2 = length(multiple_nominees$ID)
+soln2 <- length(multiple_nominees$ID)
 print(soln2) # 357
 
 
 # 3. Take Physics (Phy). Which year had the largest number of nominees?
 
-soln3 = nobeldata %>%
+soln3 <- nobeldata %>%
   filter(Field == "Phy") %>%
   group_by(Year) %>%
   summarise(Count=n()) %>%
@@ -46,9 +46,9 @@ print(soln3) # 57 in 1957, and 57 in 1963
 # 4. What is the average number of nominees for each field? Calculate the
 #    average number of nominee for each field across years.
 
-yearcount = max(nobeldata$Year) - min(nobeldata$Year) + 1
+yearcount <- max(nobeldata$Year) - min(nobeldata$Year) + 1
 
-soln4 = nobeldata %>%
+soln4 <- nobeldata %>%
   group_by(Field) %>%
   summarise(Average=n()/yearcount)
 
