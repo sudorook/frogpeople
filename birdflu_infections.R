@@ -1,5 +1,6 @@
 #! /usr/bin/env Rscript
 
+# load the packages
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -42,17 +43,19 @@ library(ggplot2)
 # subtype was circulating. The authors made several other assumptions, but this
 # is good enough for now.
 
+# INPUT
 risk <- .28
 start_year <- 1960
 end_year <- 2017
+challenge_end_year <- 1996
 
 birdfludata <- tbl_df(read.csv("data/subtype_counts.csv", header=T))
 
-meltyfludata <- birdfludata %>% gather("Strain", "Count", 2:4)
-meltyfludata <- meltyfludata %>% group_by(Year) %>%
+multifludata <- birdfludata %>% gather("Strain", "Count", 2:4)
+multifludata <- multifludata %>% group_by(Year) %>%
   mutate(Frequency=Count/sum(Count))
 
-ggplot(meltyfludata) + aes(x=Year, y=Frequency, group=Strain) + geom_line() +
+ggplot(multifludata) + aes(x=Year, y=Frequency, group=Strain) + geom_line() +
   facet_grid(Strain~.)
 
 people <- tbl_df(data.frame(Birthyear=as.integer(seq(start_year,end_year,1))))
@@ -81,14 +84,14 @@ recursiveflu <- function(year, flu_f, people_f, risk=0.28) {
   }
 }
 
-count <- 1
+yearNo <- 1
 for (year in seq(start_year,end_year,1)) {
-  people[count,] <- recursiveflu(year, meltyfludata, filter(people, Birthyear == year), risk)
-  print(recursiveflu(year, meltyfludata, filter(people, Birthyear == year), risk))
-  count <- count + 1
+  people[yearNo,] <- recursiveflu(year, multifludata, filter(people, Birthyear == year), risk)
+  print(recursiveflu(year, multifludata, filter(people, Birthyear == year), risk))
+  yearNo <- yearNo + 1
 }
 
-soln <- people %>% filter(Birthyear >= 1960, Birthyear <= 1996)
+soln <- people %>% filter(Birthyear >= start_year, Birthyear <= challenge_end_year)
 print(soln)
 
 # Birthyear       pH1N1     pH2N2      pH3N2        pNone
@@ -129,3 +132,4 @@ print(soln)
 #      1994 0.138198567 0.0000000 0.86142475 3.766864e-04
 #      1995 0.189912666 0.0000000 0.80956416 5.231755e-04
 #      1996 0.255398585 0.0000000 0.74387478 7.266327e-04
+
