@@ -43,6 +43,8 @@ library(ggplot2)
 # is good enough for now.
 
 risk <- .28
+start_year <- 1960
+end_year <- 2017
 
 birdfludata <- tbl_df(read.csv("data/subtype_counts.csv", header=T))
 
@@ -53,7 +55,7 @@ meltyfludata <- meltyfludata %>% group_by(Year) %>%
 ggplot(meltyfludata) + aes(x=Year, y=Frequency, group=Strain) + geom_line() +
   facet_grid(Strain~.)
 
-people <- tbl_df(data.frame(Birthyear=as.integer(seq(1960,2017,1))))
+people <- tbl_df(data.frame(Birthyear=as.integer(seq(start_year,end_year,1))))
 people$pH1N1 <- 1:length(people$Birthyear)*0
 people$pH2N2 <- 1:length(people$Birthyear)*0
 people$pH3N2 <- 1:length(people$Birthyear)*0
@@ -72,7 +74,7 @@ recursiveflu <- function(year, flu_f, people_f, risk=0.28) {
   people_f$pNone <- people_f$pNone * (1-risk)
   # print(people_f)
 
-  if (year == 2017) {
+  if (year == end_year) {
     return(people_f)
   } else {
     recursiveflu(year+1, flu_f, people_f)
@@ -80,9 +82,9 @@ recursiveflu <- function(year, flu_f, people_f, risk=0.28) {
 }
 
 count <- 1
-for (year in seq(1960,2017,1)) {
-  people[count,] <- recursiveflu(year, meltyfludata, filter(people, Birthyear == year), .28)
-  print(recursiveflu(year, meltyfludata, filter(people, Birthyear == year), .28))
+for (year in seq(start_year,end_year,1)) {
+  people[count,] <- recursiveflu(year, meltyfludata, filter(people, Birthyear == year), risk)
+  print(recursiveflu(year, meltyfludata, filter(people, Birthyear == year), risk))
   count <- count + 1
 }
 
