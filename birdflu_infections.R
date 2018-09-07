@@ -1,5 +1,6 @@
 #! /usr/bin/env Rscript
 
+# load the packages
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -42,9 +43,11 @@ library(ggplot2)
 # subtype was circulating. The authors made several other assumptions, but this
 # is good enough for now.
 
+# INPUT
 risk <- .28
 start_year <- 1960
 end_year <- 2017
+challenge_end_year <- 1996
 
 birdfludata <- tbl_df(read.csv("data/subtype_counts.csv", header=T))
 
@@ -80,15 +83,15 @@ recursiveflu <- function(year, flu_f, people_f, risk=0.28) {
   }
 }
 
-count <- 1
+yearNo <- 1
 for (year in seq(start_year,end_year,1)) {
-  people[count,] <- recursiveflu(year, meltyfludata,
+  people[yearNo,] <- recursiveflu(year, meltyfludata,
                                  filter(people, Birthyear == year), risk)
-  print(people[count,])
-  count <- count + 1
+  print(people[yearNo,])
+  yearNo <- yearNo + 1
 }
 
-soln <- people %>% filter(Birthyear >= 1960, Birthyear <= 1996)
+soln <- people %>% filter(Birthyear >= start_year, Birthyear <= challenge_end_year)
 print(as.data.frame(soln))
 
 # Birthyear       pH1N1     pH2N2      pH3N2        pNone
