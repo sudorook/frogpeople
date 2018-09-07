@@ -48,12 +48,13 @@ end_year <- 2017
 
 birdfludata <- tbl_df(read.csv("data/subtype_counts.csv", header=T))
 
-meltyfludata <- birdfludata %>% gather("Strain", "Count", 2:4)
+meltyfludata <- birdfludata %>% gather("Strain", "Count",
+                                       c("H1N1","H2N2","H3N2"))
 meltyfludata <- meltyfludata %>% group_by(Year) %>%
   mutate(Frequency=Count/sum(Count))
 
-ggplot(meltyfludata) + aes(x=Year, y=Frequency, group=Strain) + geom_line() +
-  facet_grid(Strain~.)
+pl_flufreq = ggplot(meltyfludata) + aes(x=Year, y=Frequency, group=Strain) +
+  geom_line() + facet_grid(Strain~.)
 
 people <- tbl_df(data.frame(Birthyear=as.integer(seq(start_year,end_year,1))))
 people$pH1N1 <- 1:length(people$Birthyear)*0
@@ -66,13 +67,11 @@ recursiveflu <- function(year, flu_f, people_f, risk=0.28) {
   fH1N1 <- filter(flu_f, Year == year, Strain=="H1N1")$Frequency
   fH2N2 <- filter(flu_f, Year == year, Strain=="H2N2")$Frequency
   fH3N2 <- filter(flu_f, Year == year, Strain=="H3N2")$Frequency
-  # print(c(fH1N1,fH2N2,fH3N2,risk))
   
   people_f$pH1N1 <- people_f$pH1N1 + risk*fH1N1*people_f$pNone
   people_f$pH2N2 <- people_f$pH2N2 + risk*fH2N2*people_f$pNone
   people_f$pH3N2 <- people_f$pH3N2 + risk*fH3N2*people_f$pNone
   people_f$pNone <- people_f$pNone * (1-risk)
-  # print(people_f)
 
   if (year == end_year) {
     return(people_f)
