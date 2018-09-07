@@ -3,7 +3,7 @@
 # plotting.
 
 # Read the phenotype data from the CSV file. 
-pheno <- read.csv("pheno.csv",quote = "",check.names = FALSE,
+pheno <- read.csv("data/pheno.csv",quote = "",check.names = FALSE,
                   stringsAsFactors = FALSE)
 
 # Remove the data from the methamphetamine sensitivity testing, since
