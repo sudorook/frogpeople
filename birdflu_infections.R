@@ -83,13 +83,14 @@ recursiveflu <- function(year, flu_f, people_f, risk=0.28) {
 
 count <- 1
 for (year in seq(start_year,end_year,1)) {
-  people[count,] <- recursiveflu(year, meltyfludata, filter(people, Birthyear == year), risk)
-  print(recursiveflu(year, meltyfludata, filter(people, Birthyear == year), risk))
+  people[count,] <- recursiveflu(year, meltyfludata,
+                                 filter(people, Birthyear == year), risk)
+  print(people[count,])
   count <- count + 1
 }
 
 soln <- people %>% filter(Birthyear >= 1960, Birthyear <= 1996)
-print(soln)
+print(as.data.frame(soln))
 
 # Birthyear       pH1N1     pH2N2      pH3N2        pNone
 #      1960 0.001341773 0.9277796 0.07087863 5.312327e-09
