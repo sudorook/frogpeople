@@ -6,14 +6,14 @@ library(dplyr)
 #
 
 source("readpheno.R")
-hmdp   <- read.csv("hmdp.csv",stringsAsFactors = FALSE)
+hmdp   <- read.csv("data/hmdp.csv",stringsAsFactors = FALSE)
 hmdp   <- transform(hmdp,sex = factor(sex,c("M","F")))
 hmdp   <- transform (hmdp,sex = factor(sex,c("M","F")))
-hmdp   <- read.csv("hmdp.csv",stringsAsFactors = FALSE)
+hmdp   <- read.csv("data/hmdp.csv",stringsAsFactors = FALSE)
 hmdp   <- transform(hmdp,sex = factor(sex,c("M","F")))
-gwscan <- read.csv("gwscan.csv",stringsAsFactors = FALSE)
+gwscan <- read.csv("data/gwscan.csv",stringsAsFactors = FALSE)
 gwscan <- transform(gwscan,chr = factor(chr,1:19))
-geno   <- read.csv("geno_rs29477109.csv",stringsAsFactors = FALSE)
+geno   <- read.csv("data/geno_rs29477109.csv",stringsAsFactors = FALSE)
 geno   <- transform(geno,id = as.character(id))
 
 # convert to tibbles
