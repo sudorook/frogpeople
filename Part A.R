@@ -31,14 +31,39 @@ ggqqplot(pheno_without_outliers$TA)
 
 #Scatter Plot
 
+require(cowplot)
+theme_set(theme_cowplot(font_size=12)) # reduce default font size
+tavstibia <- ggplot(pheno, aes(x=TA, y=tibia)) + geom_point()
+tavstibia <- ggplot_add(geom_smooth(method="lm",), tavstibia)
+pl2 <- ggplot(pheno_without_outliers, aes(x=TA, y=tibia)) + geom_point()
+pl2 <- ggplot_add(geom_smooth(method = "lm", color="red",data = pheno_without_outliers), pl2)
+plot_grid(tavstibia, pl2, labels = c("TA Weight (mg) v.s. Tibia Length (mm)", "TA Weight (mg) v.s. Tibia Length (mm)" ) )
+
+label_x = "TA Weight (mg)",  label_y=  "Tibia Length (mm)"
+
+
+
+
+
+
+
+#####
 tavstibia <- ggplot(pheno, aes(x=TA, y=tibia)) + geom_point()
 out <-  labs(title="TA Weight v.s. Tibia Length",
              x="TA Weight (mg)", y = "Tibia Length (mm)")
 tavstibia <- ggplot_add(out,tavstibia)
-tavstibia
+tavstibia <- ggplot_add(out,tavstibia)
+tavstibia <- ggplot_add(geom_smooth(method="lm",), tavstibia)
+
+
+
+pl2 <- ggplot_add(geom_smooth(method = "lm", color="red",data = pheno_without_outliers), pl2)
+
+
+
 
 tavstibia <- ggplot_add(geom_smooth(method="lm",), tavstibia)
-tavstibia <- ggplot_add(geom_smooth(method = "lm", data = pheno_without_outliers), tavstibia)
+tavstibia <- ggplot_add(geom_smooth(method = "lm", color="red", show.legend = T,data = pheno_without_outliers), tavstibia)
 tavstibia
 
 summary(lm(TA~tibia, data = pheno))
