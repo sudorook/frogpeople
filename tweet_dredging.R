@@ -31,7 +31,9 @@ for (name in unique(crimes$PrimaryType)) {
 tmp <- trumpdata %>% filter(PrimaryType=="CRIM SEXUAL ASSAULT")%>% group_by(date,n) %>%
   filter(str_detect(text, "Hillary|hillary|clinton|Clinton")) %>%
   summarise(tweets=n())
-tmp %>% ggplot() + aes(x=tweets,y=n) + geom_point()
+pl <- tmp %>% ggplot() + aes(x=tweets,y=n) + geom_point() + geom_smooth(method = "lm") +
+  xlab("log(# Trump tweets about Clinton + 1)") + ylab("log(# Crim Sexual Assaults + 1)")
+ggsave("tweet_and_cor.pdf", pl)
 print(name)
 print(cor.test(log10(tmp$tweets+1),log10(tmp$n+1)))
 
