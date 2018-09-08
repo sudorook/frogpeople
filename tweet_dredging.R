@@ -47,3 +47,8 @@ print(cor.test(log10(tmp$tweets+1),log10(tmp$n+1)))
 # sample estimates:
 #       cor 
 # 0.1730555 
+
+
+# Potential title:
+# Trump's language with respect to Hillary Clinton is causing an epidemic of
+# sexual assaults, according to science.
