@@ -52,5 +52,5 @@ print(cor.test(log10(tmp$tweets+1),log10(tmp$n+1)))
 
 
 # Potential title:
-# Trump's language with respect to Hillary Clinton is causing an epidemic of
-# sexual assaults, according to science.
+# The way Trump talks about Hillary Clinton is causing an epidemic of sexual
+# assaults.
